@@ -1,4 +1,4 @@
-#baseURL = "http://paul-lysak.github.io/public/"
+baseURL = "https://paul-lysak.github.io/"
 languageCode = "en-us"
 title = "Ambiguous Implicits - Paul Lysak's blog about programming"
 theme = "hugo_theme_beg"
