@@ -1,0 +1,15 @@
+---
+layout: post
+title: 'HTTPS client with Finagle: short reference'
+date: '2013-09-17T22:32:00.000+03:00'
+author: Paul Lysak
+tags:
+- Finagle
+- Scala
+- HTTPS
+modified_time: '2014-02-03T18:10:03.053+02:00'
+blogger_id: tag:blogger.com,1999:blog-5849718801312198988.post-7786299365833777065
+blogger_orig_url: http://paullysak.blogspot.com/2013/09/https-client-with-finagle-short.html
+---
+
+It wasn't obvious for me how to make HTTPS calls with <a href="https://github.com/twitter/finagle">Finagle</a> so I'd like to share key points here: <br /><ul><li>When building client: explicitly specify correct port (typically 443 instead of 80)</li><li>When building client: enable TLS using ClientBuilder.tls(...) or ClientBuilder.tlsWithoutValidation() method</li><li>When making actual call: specify HTTPS protocol in requested URL</li></ul>In practice you'll get something like this: <code></code><br /><pre><code> val client = ClientBuilder()<br />      .codec(Http())<br />      .hosts("yourServer:443")<br />      .tls("yourServer")<br />      .build()<br /><br />val httpRequest = RequestBuilder().url("https://yourServer/somePath").buildGet<br />val responseFuture = client(httpRequest)<br />//handle result<br /></code></pre>For more details about Finagle itself refer to official documentation: <a href="http://twitter.github.io/finagle/"></a>

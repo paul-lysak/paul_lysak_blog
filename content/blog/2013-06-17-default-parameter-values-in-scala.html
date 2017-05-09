@@ -1,0 +1,13 @@
+---
+layout: post
+title: Default parameter values in Scala
+date: '2013-06-17T17:06:00.001+03:00'
+author: Paul Lysak
+tags:
+- Scala
+modified_time: '2013-06-17T17:06:17.055+03:00'
+blogger_id: tag:blogger.com,1999:blog-5849718801312198988.post-7742482960224682950
+blogger_orig_url: http://paullysak.blogspot.com/2013/06/default-parameter-values-in-scala.html
+---
+
+I've just discovered funny thing about default parameter values in Scala. If you call a function without parenthesis default values can't be applied and compilation fails. If you have such function: <code><pre><br />def hello(name: String = "world") {<br />    println("hello, "+name)<br />}<br /></pre></code>Then this would fail to compile: <code><pre><br />hello<br /></pre></code>and this would compile and run well: <code><pre><br />hello()<br /></pre></code>
