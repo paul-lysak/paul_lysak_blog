@@ -2,6 +2,14 @@ baseURL = "https://paul-lysak.github.io/"
 languageCode = "en-us"
 title = "Ambiguous Implicits - Paul Lysak's blog about programming"
 theme = "hugo_theme_beg"
+SectionPagesMenu = "main"
+#disableKinds = ["about"]
 [Params]
   description = "my blog"
   Author = "Paul Lysak"
+
+[[menu.main]]
+        name = "About"
+        weight = -110
+        identifier = "about"
+        url = "/about/"
