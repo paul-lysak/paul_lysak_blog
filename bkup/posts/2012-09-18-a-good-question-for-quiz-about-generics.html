@@ -1,0 +1,14 @@
+---
+#layout: post
+title: 'A good question for quiz about generics In Java '
+date: '2012-09-18T19:40:00.000+03:00'
+author: Paul Lysak
+tags:
+- Java
+- generics
+modified_time: '2013-02-04T18:52:02.492+02:00'
+blogger_id: tag:blogger.com,1999:blog-5849718801312198988.post-3394711297982943588
+blogger_orig_url: http://paullysak.blogspot.com/2012/09/a-good-question-for-quiz-about-generics.html
+---
+
+Suppose you have two classes:  <code></code><br /><pre><code>public class Foo {<br /> private String[] array = (String[]) new Object[];<br /><br /> public static void main() {<br />  Foo f = new Foo();<br /> }<br />}<br /><br />public class Bar&lt;T&gt; {<br /> private T[] array = (T[]) new T[];<br /><br /> public static void main() {<br />  Bar<string> b = new Bar&lt;String&gt;();<br /> }<br />}<br /></string></code></pre>Will they compile? Will they run? At a first glance it may seem that both make inappropriate casting from superclass Object[] to subclass String[]. But if you look more carefully you may see that compiler replaces T[] with Object[], so class Bar compiles and runs without errors while Foo can't compile due to improper cast.  

@@ -10,6 +10,7 @@ tags:
 modified_time: '2014-12-29T16:01:46.336+02:00'
 blogger_id: tag:blogger.com,1999:blog-5849718801312198988.post-7591657274638597914
 blogger_orig_url: http://paullysak.blogspot.com/2013/12/hql-correlated-subquerries.html
+years: ['2013']
 ---
 
 Peculiar thing about HQL subquerries - at least in Hibernate 4.1: if you use alias in subquery, it refers to the whole table, not just to its subset that is related with main query. For example - suppose that entity <code>Bar</code> has integer field <code>idx</code> and we'd like to get <code>Bar</code> with minimal <code>idx</code> for each <code>Foo</code>.  This query will produce WRONG result: <pre><code>SELECT Foo FROM Foo f JOIN f.bar b<br />WHERE b.idx = (SELECT MIN(b.idx) FROM b)<br /></code></pre> Subquery will refer to globally minimal <code>idx</code> To get what we wanted use following query: <pre><code>SELECT Foo FROM Foo f JOIN f.bar b<br />WHERE b.idx = (SELECT MIN(fb.idx) FROM f.bar fb)<br /></code></pre> Here subquery indeed refers to <code>Bar</code> connected with current <code>Foo</code>

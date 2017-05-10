@@ -1,6 +1,21 @@
 
 <aside class="l-sidebar">
 
+
+{{/*
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title">BY YEAR</div>
+    </div>
+    <div class="list-group">
+      {{ range $value := .Site.Pages.GroupByDate "2006" }}
+        {{ $url := (index $value.Pages 0).Date.Format "2006" | urlize }}
+        <a href="/{{ $url }}" class="list-group-item">{{ .Key }}</a>
+      {{ end }}
+    </div>
+  </section>
+
+
   <section class="panel panel-default">
     <div class="panel-heading">
       <div class="panel-title">LATESTS</div>
@@ -24,6 +39,33 @@
     </div>
   </section>
   {{ end }}
+
+*/}}
+
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title"><a href="{{ $.Site.BaseURL}}years">BY YEAR</a></div>
+    </div>
+    <div class="list-group">
+      {{ range first 10 .Site.Taxonomies.years.Alphabetical.Reverse}}
+      <a href="{{ $.Site.BaseURL}}years/{{ .Name | urlize }}" class="list-group-item">{{ .Name }}</a>
+      {{ end }}
+    </div>
+  </section>
+
+
+  <section class="panel panel-default">
+    <div class="panel-heading">
+      <div class="panel-title"><a href="{{ $.Site.BaseURL}}tags">TAGS</a></div>
+    </div>
+    <div class="list-group">
+      {{ range first 10 .Site.Taxonomies.tags.ByCount }}
+      <a href="{{ $.Site.BaseURL}}tags/{{ .Name | urlize }}" class="list-group-item">{{ .Name }}</a>
+      {{ end }}
+    </div>
+  </section>
+
+
 
 </aside>
 

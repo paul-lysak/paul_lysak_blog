@@ -3,13 +3,16 @@ languageCode = "en-us"
 title = "Ambiguous Implicits - Paul Lysak's blog about programming"
 theme = "hugo_theme_beg"
 SectionPagesMenu = "main"
-#disableKinds = ["about"]
 [Params]
-  description = "my blog"
+  description = "Paul Lysak blog"
   Author = "Paul Lysak"
-
+[taxonomies]
+ year = "years"
+ tag = "tags"
+# category = "categories"
 [[menu.main]]
         name = "About"
         weight = -110
         identifier = "about"
         url = "/about/"
+

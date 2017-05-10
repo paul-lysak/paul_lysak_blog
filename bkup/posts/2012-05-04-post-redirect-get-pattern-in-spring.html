@@ -1,0 +1,12 @@
+---
+#layout: post
+title: POST-Redirect-GET Pattern In Spring WebFlow
+date: '2012-05-04T11:52:00.000+03:00'
+author: Paul Lysak
+tags: 
+modified_time: '2012-05-04T11:52:08.801+03:00'
+blogger_id: tag:blogger.com,1999:blog-5849718801312198988.post-5449130950711233497
+blogger_orig_url: http://paullysak.blogspot.com/2012/05/post-redirect-get-pattern-in-spring.html
+---
+
+<br /><br />It's a good practice to redirect user to get requests after making some changes with post and this is<br />usually done by Spring WebFlow by default. But what if by some reason you need to use <code>&lt;webflow:always-redirect-on-pause value="false"/&gt;</code> option?<br />You can do this through java code. This approach is not described in WebFlow reference but documented via API javadoc.<br />Suppose you have some Action which is configured through WebFlow. If you want to make redirect to GET after this action you can modify action methods in following way:<br /><br /><code></code><br /><pre><code>public Event saveMyItem(RequestContext context) {<br /> //do some operations here<br /><br /> //issue redirect<br /> context.getExternalContext().requestFlowExecutionRedirect(); <br /> return success();<br />}<br /></code></pre><br />When WebFlow starts generating HTTP response it will send 302 code.<br /><br /><div><br /></div>

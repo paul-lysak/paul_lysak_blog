@@ -1,0 +1,13 @@
+---
+#layout: post
+title: Collections.addAll performance
+date: '2012-06-13T13:08:00.002+03:00'
+author: Paul Lysak
+tags:
+- Java
+modified_time: '2012-06-13T13:08:41.316+03:00'
+blogger_id: tag:blogger.com,1999:blog-5849718801312198988.post-8551591328295614890
+blogger_orig_url: http://paullysak.blogspot.com/2012/06/collectionsaddall-performance.html
+---
+
+I was wondering how efficient addAll() method in Java collections is and looked through the JDK code (Sun/Oracle JDK 1.6.0-27). Here is code for ArrayList.addAll(...):<br /><br /><pre><code><br />public boolean addAll(Collection&lt;? extends E&gt; c) {<br /> Object[] a = c.toArray();<br />        int numNew = a.length;<br /> ensureCapacity(size + numNew);  // Increments modCount<br />        System.arraycopy(a, 0, elementData, size, numNew);<br />        size += numNew;<br /> return numNew != 0;<br />}<br /></code></pre><br />So here you can see incomming collection content copied into intermediate array.<br />And here is code for ArrayList.toArray():<br /><br /><pre><code><br />public Object[] toArray() {<br /> return Arrays.copyOf(elementData, size);<br />}<br /></code></pre><br />Pay attention that content of internal array is copied in order to return some value. And that's OK because internal array may contain empty cells in its tail. But what we have if we put it all together - if you make arrayList1.addAll(arrayList2) then content of arrayList2 is copied 2 times.<br /><br />Well... honestly, I beleived before that standard data manipulation routines should be better optimized.

@@ -1,0 +1,14 @@
+---
+#layout: post
+title: Why I dislike Scala enums
+date: '2016-08-23T19:42:00.001+03:00'
+author: Paul Lysak
+tags:
+- Java
+- Scala
+modified_time: '2016-08-23T19:42:48.759+03:00'
+blogger_id: tag:blogger.com,1999:blog-5849718801312198988.post-7037365049768924912
+blogger_orig_url: http://paullysak.blogspot.com/2016/08/why-i-dislike-scala-enums.html
+---
+
+<p>I came to conclusion that even in fully-Scala projects it’s better to define enums using Java. Even third-party libraries that have support for Scala enums suffer from the fact that in runtime all Scala enums have the same type. So if you get some enum value - you have no way to tell to which enum type does it belong. Let me show you how bad it can be with <code>json4s</code>. If you have such enums:</p> <pre><code>object FooVersion extends Enumeration {<br />  val V1, V2, V3 = Value<br />}<br />object BarVersion extends Enumeration {<br />  val V1, V2, V3 = Value<br />} <br /></code></pre> <p>and such formats:</p> <pre><code>implicit val formats = org.json4s.DefaultFormats +<br />  new org.json4s.ext.EnumNameSerializer(FooVersion) +<br />  new org.json4s.ext.EnumNameSerializer(BarVersion)<br /></code></pre> <p>you will be able to serialize and deserizlize the data:</p> <pre><code>val d1 = SampleData(name = "first foo", version = FooVersion.V1)<br />println("original: " + d1)<br />val s1 = Serialization.write(d1)<br />println("serialized: " + s1)<br />val ds1 = Serialization.read[SampleData](s1)<br />println("deserialized: " + ds1)<br /></code></pre> <p>and it will look the same:</p> <pre><code>original: SampleData(first foo,V1)<br />serialized: {"name":"first foo","version":"V1"}<br />deserialized: SampleData(first foo,V1)<br /></code></pre> <p>but the objects are not going to be equal!</p> <pre><code>println("original == deserialized: " + (d1 == ds1))<br /></code></pre> <p>prints following result:</p> <pre><code>original == deserialized: false<br /></code></pre> <p>With debugger you may inspect private fields and discover that type of <code>d1.version.scala$Enumeration$$OuterEnum</code> is <code>FooVersion$</code>, and of <code>ds1.version.scala$Enumeration$$OuterEnum</code> - <code>BarVersion$</code>.</p>

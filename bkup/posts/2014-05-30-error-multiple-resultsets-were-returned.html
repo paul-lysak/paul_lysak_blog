@@ -1,0 +1,15 @@
+---
+#layout: post
+title: 'Error: Multiple ResultSets were returned by the query'
+date: '2014-05-30T08:21:00.002+03:00'
+author: Paul Lysak
+tags:
+- Java
+- jdbc
+- postgres
+modified_time: '2014-05-30T08:21:48.180+03:00'
+blogger_id: tag:blogger.com,1999:blog-5849718801312198988.post-4772612644543072391
+blogger_orig_url: http://paullysak.blogspot.com/2014/05/error-multiple-resultsets-were-returned.html
+---
+
+Turned out that error "<code>org.postgresql.util.PSQLException: Multiple ResultSets were returned by the query</code>" may be caused by semicolon (;) in the end of the query when working with Postgres via JDBC

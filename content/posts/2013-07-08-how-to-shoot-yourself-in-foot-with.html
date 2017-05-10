@@ -9,6 +9,7 @@ tags:
 modified_time: '2013-07-11T15:34:19.019+03:00'
 blogger_id: tag:blogger.com,1999:blog-5849718801312198988.post-5783264722082097757
 blogger_orig_url: http://paullysak.blogspot.com/2013/07/how-to-shoot-yourself-in-foot-with.html
+years: ['2013']
 ---
 
 Suppose you have some class MyService configured as Spring bean: <pre><code><br />@Component<br />class MyService extends MyBaseService {<br />  def myOperation() {<br />    ...<br />  }<br />}<br /></code></pre> Which is referenced somewhere in the project:  <pre><code><br />...<br />@Autowired<br />private var myService: MyService = _<br />...<br /></code></pre> So far this code works, and now you'd like to mix in some trait into your service to add common functionality:  <pre><code><br />@Component<br />class MyService extends MyBaseService with MyTrait {<br />  def myOperation() {<br />    ...<br />  }<br />}<br /></code></pre> And suddenly Spring can't find bean for autowiring. The problem is that if you use proxies for AOP functionality then Spring detects the only interface implemented by MyService - and it's MyTrait. Therefore there's no more MyService instance in application contect, there's only a proxy implementing MyTrait and forwarding calls of methods available in MyTrait to MyService instance.   Without that trait Spring used subclassing to build proxy which worked find. 
