@@ -8,10 +8,6 @@
     <li class="disabled"><a href="#">Previous</a></li>
     {{ end }}
 
-    {{ range .Paginator.Pages}}
-      {{ .Title }}
-    {{ end }}
-
     {{ if .Paginator.HasNext }}
     <li><a href="{{ .Paginator.Next.URL }}">Next</a></li>
     {{ else }}
