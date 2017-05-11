@@ -3,6 +3,7 @@ languageCode = "en-us"
 title = "Ambiguous Implicits - Paul Lysak's blog about programming"
 theme = "hugo_theme_beg"
 SectionPagesMenu = "main"
+googleAnalytics = "UA-98972707-1"
 [Params]
   description = "Paul Lysak blog"
   Author = "Paul Lysak"
