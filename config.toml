@@ -1,4 +1,4 @@
-baseURL = "https://www.aimplicits.com/"
+baseURL = "http://www.aimplicits.com/"
 languageCode = "en-us"
 title = "Ambiguous Implicits - Paul Lysak's blog about programming"
 theme = "hugo_theme_beg"
