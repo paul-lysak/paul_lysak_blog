@@ -17,4 +17,11 @@ disqusShortname = "aimplicits"
         weight = -110
         identifier = "about"
         url = "/about/"
+[[menu.main]]
+        name = ""
+        pre = "<i class='fa fa-twitter'></i>"
+        weight = -130
+        identifier = "twitter"
+        url = "https://twitter.com/paul_lysak"
+
 
