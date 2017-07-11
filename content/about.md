@@ -1,10 +1,8 @@
 +++
-#date = "2017-05-09T16:05:09+03:00"
-#TODO - find better way to hide from RSS than fake date:
-date = "2011-10-25T00:00:00+03:00" 
+date = "2017-05-09T16:05:09+03:00"
 draft = false 
 title = "About Ambigious Implicits blog"
-notOnHomePage = true
+layout = "single_static"
 +++
 
 
