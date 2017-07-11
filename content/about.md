@@ -3,6 +3,7 @@ date = "2017-05-09T16:05:09+03:00"
 draft = false 
 title = "About Ambigious Implicits blog"
 layout = "single_static"
+notOnHomePage = true
 +++
 
 
