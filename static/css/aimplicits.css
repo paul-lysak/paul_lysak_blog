@@ -15,3 +15,14 @@ img[src$='#floatright']
     float:right;
     margin-left: 0.7rem;      
 }
+
+table.doc td,th{
+    border: 1px solid black;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 2px;
+    padding-bottom: 7px;
+    vertical-align: top;
+}
+
+
