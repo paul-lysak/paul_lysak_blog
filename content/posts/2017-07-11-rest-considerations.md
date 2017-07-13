@@ -1,6 +1,5 @@
 +++
 date = "2017-07-11T15:56:05+03:00"
-draft = true
 title = "Are RESTful APIs over-valued?"
 tags = ["REST"]
 years = ["2017"]
