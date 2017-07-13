@@ -2,7 +2,8 @@
 date = "2017-07-11T15:56:05+03:00"
 draft = true
 title = "Are RESTful APIs over-valued?"
-
+tags = ["REST"]
+years = ["2017"]
 +++
 
 Nowdays RESTful APIs are usually considered to be the only reasonable way for communication between 
@@ -16,7 +17,7 @@ I must clarify that we're going to talk about typical understanding of RESTful A
 not initial ideas of Roy Fielding according to which [hyperlinks are mandatory for REST](http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven), a.k.a. HATEOAS (hypermedia as the engine of application state).
 I've seen some HATEOAS beleivers, but I'm yet to see a project which would benefit from it. 
 Hypermedia works well for human-facing systems, such as web sites, but APIs interact with machines, 
-and machines need to be programmed to understand the links, therefore benefits will be quite limited, 
+and machines need to be programmed to understand the links, therefore benefits jjjjwill be quite limited, 
 and communication will be much more verbose. Therefore, we're going to leave HATEOAS alone.
 
 In this writing we're going to consider APIs with following properties as RESful:
@@ -40,7 +41,7 @@ in reality degenerates to RPC-style, effectively sacrificing REST in favor of DD
 immediately triggering angry comments - "How could you do this? It's RPC!". 
 Reasoning on DDD/CQRS side is quite practical, while reasoning on REST side is usually cargo-cult style, ending with ultimate argument "if it's RPC-style - it's bad". 
 
-Some authors suggest that (RESTful API approaches do more harm)[https://mmikowski.github.io/the_lie/] than benefit and should be abandoned in favor of so-called ("JSON-Pure")[https://mmikowski.github.io/json-pure/] approach - transport-independent messaging which delivers metadata using application-specific envelope. Somewhat resembles SOAP web-services, but much more lightweight. That seems to be the most extreme step aside from REST - no dependency on any HTTP features, no URLs, everything conveyed in request/response body. It deliberately eliminates all the traits of RESTful API we've described before.  
+Some authors suggest that [RESTful API approaches do more harm](https://mmikowski.github.io/the_lie/) than benefit and should be abandoned in favor of so-called ["JSON-Pure"](https://mmikowski.github.io/json-pure/) approach - transport-independent messaging which delivers metadata using application-specific envelope. Somewhat resembles SOAP web-services, but much more lightweight. That seems to be the most extreme step aside from REST - no dependency on any HTTP features, no URLs, everything conveyed in request/response body. It deliberately eliminates all the traits of RESTful API we've described before.  
 Were those traits actually useful? If I switch to such JSON-Pure approach, will I miss them? Will I gain something? Let's see what matters in practice.
 
 <table class="doc">
@@ -57,6 +58,7 @@ Were those traits actually useful? If I switch to such JSON-Pure approach, will 
           and even re-try failed operation automatically after successful login</li>
           <li>Can specify security credentials in headers and then safely log request body without leaking sensitive information</li>
           <li>When exploring some unfamiliar API I may be sure that GET requests don’t break anything</li>
+          <li>Cross-origin GET requests don't need additional OPTIONS request because the only thing to check is if user is allowed to see the result</li>
           <li>Nested API: common re-usable modules may be placed under different parent locations. For example, user management API with urls like /user/1 may be placed under multi-tenancy wrapper and build up URLs like /org/1/user/1</li>
         </ul>
       </td>
@@ -73,6 +75,7 @@ Were those traits actually useful? If I switch to such JSON-Pure approach, will 
       <tr>
         <td>
           <ul>
+            <li>Easier to inspect requests made by browser - URL tells immediately which resource was requested, without inspecting the body</li>
             <li>Metadata separate from request (status codes, headers) makes it possible to take some decisions on the content without parsing req/resp body => higher performance</li>
             <li>Easier to work with static JSON serialization libraries (such as Play JSON) - whenever receiving request to specific URL, you usually know exactly what data type to expect</li>
             <li>Support from API documentation tools such as Swagger - ability to pair request and response formats, unlike plain JSON schema which may be used for defining messages in RPC-style communication but doesn’t connect input and output data types</li>
@@ -102,6 +105,23 @@ service by using a proxy which captures requests and calls the service when it's
 therefore can't provide good availability guarantees. Availability needs are better met by explictly using messaging brokers.
 Re-trying in practice usually still needs domain knowlege and HTTP method properties don't help too much with it.
 - “Natural”, “Human-understandable” or “Easy to remember” structure of the API - you still largely need documentation to know what body to send and what body to expect, and by nicely designing message structure you still can make it understandable enough in order to debug with CLI tools like curl
-- bookmarking/history - I’m yet to see the case where someone wants to bookmark an API call. And if you’d like to repeat manually some call that your browser has made then Chrome toolbox can generate curl command for you
+- Bookmarking/history - I’m yet to see the case where someone wants to bookmark an API call. And if you’d like to repeat manually some call that your browser has made then Chrome toolbox can generate curl command for you
 
-Conclusions: TODO
+Conclusions: 
+
+- It's useful to distinguish GET and everything else, GET is really specific and handling it separately helps a lot. 
+Distinguishing PUT and DELETE is more of theoretical importance and matter of taste.
+- HTTP codes are helpful for common logic of error handling.
+- Purely noun-based URLs look like a cargo cult, they don't offer any advantage in general case, need to think about each situation individually 
+if they fit here or not.
+- Well-structured URLs make embedding and debugging easier, however alternative solutions are also possible (such as wrapping message to underlying system into some context-providing message).
+
+After comparing all these pro and contra if I started a project from scratch with open-minded colleagues I would choose
+["REST without PUT"](https://www.thoughtworks.com/radar/techniques/rest-without-put) approach I've mentioned before - it uses the good parts
+of established REST practices (separating GET requests, using HTTP response codes and headers, addressing entities via URLs) while abandoning 
+more contradictory parts (PUT and DELETE, strictly noun-based URLs). This approach, however, misses transport-independent communication of 
+["JSON-Pure"](https://mmikowski.github.io/json-pure/) approach as the identifier or the entity isn't included in the message.
+However, "JSON-Pure" comes at its own cost and should be used only where transport-independence really matters. 
+
+
+
