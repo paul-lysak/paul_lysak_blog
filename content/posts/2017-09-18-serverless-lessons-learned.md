@@ -18,7 +18,7 @@ Let's talk which services were used in this project and how they play together.
 
 ### [S3](https://aws.amazon.com/s3/)
 
-Stores the original photos in a bucket which isn't publically available and application code in a folder of another bucket.
+Stores original photos in a bucket which isn't publically available and application code in a folder of another bucket.
 
 ### [Cognito](https://aws.amazon.com/cognito/)
 
@@ -74,6 +74,11 @@ Gallery has 2 lambdas, each doing its job:
 
 - generate signed cookie which grants access to original and resized pictures
 - resize the picture to fit into requested bounds. Its results are cached in CloudFront, so no need to worry about persisting the picture - just give it away in response.
+
+Configuration of lambdas is quite convinient via environment variables in AWS console, so no need to package much configuration in the deployment artifact.
+What's even better - it can transparently use [KMS](https://aws.amazon.com/kms/) to encrypt sensitive information, so that no other user with access to AWS console
+could read it or illegally use it - AWS will only grant access to necessary keys to lambda function itself in order to decrypt the value.
+AWS console even can generate decryption code for you - just need to paste it into your project.
 
 [API Gateway](https://aws.amazon.com/api-gateway/)
 
