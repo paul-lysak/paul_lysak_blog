@@ -83,4 +83,4 @@ data input termination: reading will be aborted while there are still some unrea
 In real world you would want to avoid using `unsafeRunSync` when creating a `Queue` and a `Promise` and use `flatMap` or for-comprehension, 
 probably together with `fs2.Stream.eval`, to make sure that your code is lazily evaluated and referentially transparent.
 
-
+UPD: After writing the article I've learned that `unNoneTerminate` does roughy the same thing as `takeWhile(_.isDefined).map(_.get)` and it's the more idiomatic way to do this job.
